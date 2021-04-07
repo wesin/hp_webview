@@ -1,7 +1,5 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'hp_webview_bloc.dart';
@@ -11,8 +9,9 @@ import 'hp_webview_screen.dart';
 
 class HPWebViewPage extends StatefulWidget {
   static const String routeName = '/WebView';
-  HPWebViewPage({this.injectJSList, this.jsHandler, Key? key})
+  HPWebViewPage(this.viewInfo, {this.injectJSList, this.jsHandler, Key? key})
       : super(key: key);
+  final WebViewModel viewInfo;
   final UnmodifiableListView<UserScript>? injectJSList;
   final Function(InAppWebViewController controller, BuildContext context)?
       jsHandler;
@@ -24,10 +23,13 @@ class HPWebViewPage extends StatefulWidget {
 class _HPWebViewPageState extends State<HPWebViewPage> {
   final _webViewBloc = HPWebViewBloc();
   WebViewModel? filterInfo;
-  WebViewModel? viewInfo;
 
   @override
   void initState() {
+    if (widget.viewInfo.filterUrl?.isNotEmpty ?? false) {
+      filterInfo = WebViewModel(widget.viewInfo.filterUrl!,
+          title: widget.viewInfo.filterTitle);
+    }
     super.initState();
   }
 
@@ -38,18 +40,9 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    Object? info = ModalRoute.of(context)?.settings.arguments;
-    if (info == null) {
-      return Center(child: Text("没有webview参数信息"));
-    }
-    viewInfo = info as WebViewModel;
-    if (viewInfo?.filterUrl?.isNotEmpty ?? false) {
-      filterInfo =
-          WebViewModel(viewInfo!.filterUrl!, title: viewInfo!.filterTitle);
-    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewInfo?.title ?? "万里牛"),
+        title: Text(widget.viewInfo.title ?? "万里牛"),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -72,7 +65,7 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
             BlocProvider(create: (context) => _webViewBloc),
           ],
           child: HPWebViewScreen(
-            viewInfo!,
+            widget.viewInfo,
             injectJSList: widget.injectJSList,
             jsHandler: widget.jsHandler,
           )),
