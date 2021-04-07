@@ -1,6 +1,9 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'hp_webview_bloc.dart';
 import 'hp_webview_filter.dart';
 import 'model/webview_model.dart';
@@ -8,7 +11,11 @@ import 'hp_webview_screen.dart';
 
 class HPWebViewPage extends StatefulWidget {
   static const String routeName = '/WebView';
-  HPWebViewPage({Key? key}) : super(key: key);
+  HPWebViewPage({this.injectJSList, this.jsHandler, Key? key})
+      : super(key: key);
+  final UnmodifiableListView<UserScript>? injectJSList;
+  final Function(InAppWebViewController controller, BuildContext context)?
+      jsHandler;
 
   @override
   _HPWebViewPageState createState() => _HPWebViewPageState();
@@ -60,10 +67,22 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
           })
         ],
       ),
-      body: MultiBlocProvider(providers: [
-        BlocProvider(create: (context) => _webViewBloc),
-      ], child: HPWebViewScreen(viewInfo!)),
-      endDrawer: filterInfo != null ? HPWebViewFilter(filterInfo!) : null,
+      body: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => _webViewBloc),
+          ],
+          child: HPWebViewScreen(
+            viewInfo!,
+            injectJSList: widget.injectJSList,
+            jsHandler: widget.jsHandler,
+          )),
+      endDrawer: filterInfo != null
+          ? HPWebViewFilter(
+              filterInfo!,
+              injectJSList: widget.injectJSList,
+              jsHandler: widget.jsHandler,
+            )
+          : null,
       //HPWebViewScreen(widget.url, _WebViewBloc),
     );
   }
