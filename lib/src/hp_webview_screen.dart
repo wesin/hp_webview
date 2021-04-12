@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:hp_webview/src/hp_webview_const.dart';
 
 import 'hp_webview_bloc.dart';
 import 'hp_webview_event.dart';
@@ -33,13 +34,13 @@ class HPWebViewScreen extends StatelessWidget {
     print("view init: ${this.viewInfo.url}");
     return InAppWebView(
         key: const Key("in_app_webview"),
-        initialUrlRequest: URLRequest(url: Uri.parse(this.viewInfo.url)),
+        initialUrlRequest: this.viewInfo.url.startsWith(HPWebViewConst.filePath) ? null : URLRequest(url: Uri.parse(this.viewInfo.url)),
         onWebViewCreated: (controller) {
           if (jsHandler != null) {
             jsHandler!(controller, context);
           }
-          if (viewInfo.url.contains("test.html")) {
-            _loadHtmlFromAssets(controller);
+          if (this.viewInfo.url.startsWith(HPWebViewConst.filePath)) {
+            _loadHtmlFromAssets(controller, this.viewInfo.url);
           }
         },
         onLoadStart: (controller, uri) =>
@@ -55,9 +56,9 @@ class HPWebViewScreen extends StatelessWidget {
         initialUserScripts: this.injectJSList);
   }
 
-  void _loadHtmlFromAssets(InAppWebViewController controller) async {
+  void _loadHtmlFromAssets(InAppWebViewController controller, String path) async {
     String fileHtmlContents =
-        await rootBundle.loadString("assets/files/test.html");
+        await rootBundle.loadString(path.substring(HPWebViewConst.filePath.length));
     controller.loadUrl(
         urlRequest: URLRequest(
             url: Uri.dataFromString(fileHtmlContents,
