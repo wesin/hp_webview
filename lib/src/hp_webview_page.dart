@@ -38,6 +38,19 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
     super.dispose();
   }
 
+  List<Widget>? rightActions(BuildContext context) {
+    if (filterInfo == null) {
+      return null;
+    }
+    return [
+      IconButton(
+        iconSize: 24,
+        icon: Image.asset("assets/imgs/filter.png"),
+        onPressed: () => Scaffold.of(context).openEndDrawer(),
+      )
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,15 +63,7 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
                 onPressed: () => Navigator.of(context).maybePop());
           },
         ),
-        actions: [
-          Builder(builder: (context) {
-            return IconButton(
-              iconSize: 24,
-              icon: Image.asset("assets/imgs/filter.png"),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-            );
-          })
-        ],
+        actions: rightActions(context),
       ),
       body: MultiBlocProvider(
           providers: [
