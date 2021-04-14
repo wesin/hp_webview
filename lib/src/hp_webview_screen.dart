@@ -36,9 +36,9 @@ class HPWebViewScreen extends StatelessWidget {
         key: const Key("in_app_webview"),
         initialUrlRequest: this.viewInfo.url.startsWith(HPWebViewConst.filePath) ? null : URLRequest(url: Uri.parse(this.viewInfo.url)),
         onWebViewCreated: (controller) {
-          if (jsHandler != null) {
-            jsHandler!(controller, context);
-          }
+          // if (jsHandler != null) {
+          //   jsHandler!(controller, context);
+          // }
           if (this.viewInfo.url.startsWith(HPWebViewConst.filePath)) {
             _loadHtmlFromAssets(controller, this.viewInfo.url);
           }

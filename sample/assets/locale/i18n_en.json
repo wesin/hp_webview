@@ -1,0 +1,10 @@
+{
+    "app_name":"Hello",
+    "user_name": "UserName",
+    "password": "Password",
+    "home": "万里牛",
+    "logout": "Logout",
+    "login": "Login",
+    "invalid_password": "Invalid password",
+    "invalid_phone": "Invalid username"
+}

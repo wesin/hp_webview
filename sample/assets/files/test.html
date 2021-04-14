@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Welcome</title>
+</head>
+<link href="test.css" rel="stylesheet" type="text/css" />
+
+<body>
+	<div id="context">
+		<div id="ph">
+			<input type="text" id="phone" />
+			<p></p>
+			<input id="cl" type="button" onclick="call();" value="拔 打" />
+		</div>
+		<p></p>
+		<div id="sp">
+			<input id="btn" type="button" onclick="openUrl();" value="打 开" />
+        </div>
+        <div id="finish">
+            <input id="btn" type="button" onclick="finish();" value="返回" />
+        </div>
+		<p></p>
+		<div id='rs'>
+			<a id="barcodes">huhuhu</a>
+		</div>
+		<p></p>
+		<div id="bar">
+			<input id="sn" type="button" onclick="openBarcode();" value="条 码" />
+			<p></p>
+			<input id="sn" type="button" onclick="openBarcodes();" value="连 续" />
+		</div>
+        <div id="logout">
+            <input id="btn" type="button" onclick="logout();" value="注销" />
+        </div>
+	</div>
+	<div id="bottom"></div>
+</body>
+<script type="text/javascript">
+function openUrl() {
+window.js.handler.openUrlWithFilterUrl("https://m.hupun.com/h5/page/report/sale/sentDaily.html", "百度", "https://m.hupun.com/h5/page/report/sale/sentDailyFilter.html")
+};
+
+function openBarcode() {
+    window.js.handler.barcode("callback");
+};
+
+
+function openBarcodes() {
+    window.js.handler.barcodes("callbackcodes");
+};
+
+function callbacks(id, barcodes) {
+    document.getElementById(id).innerHTML = barcodes.join('<br />');
+};
+
+function callbackcodes(barcodes) {
+    callbacks("barcodes", barcodes);
+};
+
+function callback(v) {
+    document.getElementById('barcodes').innerHTML = v
+};
+
+function callbackHello(text) {
+    document.getElementById('barcodes').innerHTML = text
+};
+
+function logout() {
+    window.js.handler.logout()
+};
+
+function call() {
+    try {
+        
+        var phone = document.getElementById('phone').value;
+        if (window.js.handler != undefined) {
+                window.js.handler.call(phone);
+        }
+    } catch (err) {
+        alert(err);
+    }
+};
+
+function finish() {
+    window.js.handler.finish(null);
+};
+</script>
+</html>
