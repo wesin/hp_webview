@@ -43,11 +43,13 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
       return null;
     }
     return [
-      IconButton(
-        iconSize: 24,
-        icon: Image.asset("assets/imgs/filter.png"),
-        onPressed: () => Scaffold.of(context).openEndDrawer(),
-      )
+      Builder(builder: (context) {
+        return IconButton(
+          iconSize: 24,
+          icon: Image.asset("assets/imgs/filter.png"),
+          onPressed: () => Scaffold.of(context).openEndDrawer(),
+        );
+      })
     ];
   }
 
