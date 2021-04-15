@@ -8,10 +8,10 @@ import 'model/webview_model.dart';
 import 'hp_webview_screen.dart';
 
 class HPWebViewPage extends StatefulWidget {
-  static const String routeName = '/WebView';
-  HPWebViewPage(this.viewInfo, {this.injectJSList, this.jsHandler, Key? key})
+  static const String routeName = '/HPWebView';
+  HPWebViewPage({this.viewInfo, this.injectJSList, this.jsHandler, Key? key})
       : super(key: key);
-  final WebViewModel viewInfo;
+  final WebViewModel? viewInfo;
   final UnmodifiableListView<UserScript>? injectJSList;
   final Function(InAppWebViewController controller, BuildContext context)?
       jsHandler;
@@ -26,10 +26,6 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
 
   @override
   void initState() {
-    if (widget.viewInfo.filterUrl?.isNotEmpty ?? false) {
-      filterInfo = WebViewModel(widget.viewInfo.filterUrl!,
-          title: widget.viewInfo.filterTitle);
-    }
     super.initState();
   }
 
@@ -55,9 +51,21 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
 
   @override
   Widget build(BuildContext context) {
+    var viewInfo = widget.viewInfo;
+    if (viewInfo == null) {
+      var info = ModalRoute.of(context)?.settings.arguments;
+      if (info == null || !(info is WebViewModel)) {
+        return Container();
+      }
+      viewInfo = info;
+    }
+    if (viewInfo.filterUrl?.isNotEmpty ?? false) {
+      filterInfo =
+          WebViewModel(viewInfo.filterUrl!, title: viewInfo.filterTitle);
+    }
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.viewInfo.title ?? "万里牛"),
+        title: Text(viewInfo.title ?? "万里牛"),
         leading: Builder(
           builder: (context) {
             return IconButton(
@@ -72,7 +80,7 @@ class _HPWebViewPageState extends State<HPWebViewPage> {
             BlocProvider(create: (context) => _webViewBloc),
           ],
           child: HPWebViewScreen(
-            widget.viewInfo,
+            viewInfo,
             injectJSList: widget.injectJSList,
             jsHandler: widget.jsHandler,
           )),
