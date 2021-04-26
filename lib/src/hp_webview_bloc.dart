@@ -9,12 +9,6 @@ class HPWebViewBloc extends Bloc<HPWebViewEvent, HPWebViewState> {
   // todo: check singleton for logic in project
   // use GetIt for DI in projct
   HPWebViewBloc() : super(HPWebViewInitState());
-  // static final HPWebViewBloc _WebViewBlocSingleton =
-  //     HPWebViewBloc._internal();
-  // factory HPWebViewBloc() {
-  //   return _WebViewBlocSingleton;
-  // }
-  // HPWebViewBloc._internal() : super(HPWebViewInitState());
 
   @override
   Future<void> close() async {

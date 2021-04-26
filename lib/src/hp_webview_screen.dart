@@ -12,16 +12,6 @@ import 'hp_webview_event.dart';
 import 'hp_webview_state.dart';
 import 'model/index.dart';
 
-class JSHandlerConst {
-  static const String close = "close";
-  static const String openUrl = "openUrl";
-  static const String logout = "logout";
-  static const String getData = "getData";
-  static const String setData = "setData";
-  static const String back = "back";
-  static const String openPage = "openPage";
-}
-
 class HPWebViewScreen extends StatelessWidget {
   const HPWebViewScreen(this.viewInfo, {this.injectJSList, this.jsHandler});
   final WebViewModel viewInfo;
@@ -36,9 +26,6 @@ class HPWebViewScreen extends StatelessWidget {
         key: const Key("in_app_webview"),
         initialUrlRequest: this.viewInfo.url.startsWith(HPWebViewConst.filePath) ? null : URLRequest(url: Uri.parse(this.viewInfo.url)),
         onWebViewCreated: (controller) {
-          // if (jsHandler != null) {
-          //   jsHandler!(controller, context);
-          // }
           if (this.viewInfo.url.startsWith(HPWebViewConst.filePath)) {
             _loadHtmlFromAssets(controller, this.viewInfo.url);
           }
