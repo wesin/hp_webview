@@ -24,8 +24,13 @@ class HPWebViewScreen extends StatelessWidget {
     print("view init: ${this.viewInfo.url}");
     return InAppWebView(
         key: const Key("in_app_webview"),
-        initialUrlRequest: this.viewInfo.url.startsWith(HPWebViewConst.filePath) ? null : URLRequest(url: Uri.parse(this.viewInfo.url)),
+        initialUrlRequest: this.viewInfo.url.startsWith(HPWebViewConst.filePath)
+            ? null
+            : URLRequest(url: Uri.parse(this.viewInfo.url)),
         onWebViewCreated: (controller) {
+          if (jsHandler != null) {
+            jsHandler!(controller, context);
+          }
           if (this.viewInfo.url.startsWith(HPWebViewConst.filePath)) {
             _loadHtmlFromAssets(controller, this.viewInfo.url);
           }
@@ -43,9 +48,10 @@ class HPWebViewScreen extends StatelessWidget {
         initialUserScripts: this.injectJSList);
   }
 
-  void _loadHtmlFromAssets(InAppWebViewController controller, String path) async {
-    String fileHtmlContents =
-        await rootBundle.loadString(path.substring(HPWebViewConst.filePath.length));
+  void _loadHtmlFromAssets(
+      InAppWebViewController controller, String path) async {
+    String fileHtmlContents = await rootBundle
+        .loadString(path.substring(HPWebViewConst.filePath.length));
     controller.loadUrl(
         urlRequest: URLRequest(
             url: Uri.dataFromString(fileHtmlContents,

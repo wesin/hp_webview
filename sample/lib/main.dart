@@ -5,8 +5,8 @@ import 'package:hp_webview/hp_webview.dart';
 import 'webview_util.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-
-final InAppLocalhostServer localhostServer = new InAppLocalhostServer(port: 8765);
+final InAppLocalhostServer localhostServer =
+    new InAppLocalhostServer(port: 8765);
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await localhostServer.start();
@@ -21,7 +21,7 @@ void main() async {
 
     if (swAvailable && swInterceptAvailable) {
       AndroidServiceWorkerController serviceWorkerController =
-      AndroidServiceWorkerController.instance();
+          AndroidServiceWorkerController.instance();
 
       serviceWorkerController.serviceWorkerClient = AndroidServiceWorkerClient(
         shouldInterceptRequest: (request) async {
@@ -53,6 +53,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
+      routes: {
+        HPWebViewPage.routeName: (_) => HPWebViewPage(),
+      },
     );
   }
 }
@@ -82,20 +85,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return  Material(
+    return Material(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-              onPressed: () => _openWebPage(
-                  WebViewModel(
-                      "http://localhost:8765/home/"),
-                  context),
-              child: Text("本地测试")),
+              onPressed: () {
+                _openWebPage(
+                    WebViewModel("https://github.com/wesin/hp_webview",
+                        title: "github"),
+                    context);
+              },
+              child: Text("外部网页")),
           ElevatedButton(
-            onPressed: () => _openWebPage(WebViewModel("http://localhost:8765/assets/files/test.html"), context),
-            child: Text("测试"),
+              onPressed: () => _openWebPage(
+                  WebViewModel("http://localhost:8765/home/"), context),
+              child: Text("打开本地网页")),
+          ElevatedButton(
+            onPressed: () => _openWebPage(
+                WebViewModel("http://localhost:8765/assets/files/test.html"),
+                context),
+            child: Text("原生交互测试"),
           )
         ],
       ),

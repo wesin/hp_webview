@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:hp_webview/hp_webview.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
-
 class JSHandlerConst {
   static const String close = "close";
   static const String openUrl = "openUrl";
@@ -20,7 +19,8 @@ class WebViewUtil {
   static void openWebView(WebViewModel viewInfo, BuildContext context) async {
     String injectJS = await rootBundle.loadString("assets/files/inject.js");
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-      return HPWebViewPage(viewInfo: viewInfo,
+      return HPWebViewPage(
+          viewInfo: viewInfo,
           injectJSList: UnmodifiableListView<UserScript>([
             UserScript(
                 source: injectJS,
