@@ -2,6 +2,9 @@
 
 基于Flutter_inappwebview结合Flutter_bloc封装的打开webview的控件，
 解决官方案例里setState后webview重新rebuild的问题。
+增加了个头部进度条进度显示，加载中中间显示个加载动画。
+
+sample中有加载本地Vue代码的范例。
 
 ## Getting Started
 
