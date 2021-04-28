@@ -1,11 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Welcome</title>
-</head>
-<link href="test.css" rel="stylesheet" type="text/css" />
-
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset=utf-8>
+        <meta http-equiv=X-UA-Compatible content="IE=edge">
+        <meta name=viewport content="width=device-width,initial-scale=1">
+        <title>Welcome</title>
+    </head>
 <body>
 	<div id="context">
 		<div id="ph">
@@ -18,7 +18,7 @@
 			<input id="btn" type="button" onclick="openUrl();" value="打 开" />
         </div>
         <div id="finish">
-            <input id="btn" type="button" onclick="finish();" value="返回" />
+            <input id="btn" type="button" onclick="back();" value="返回" />
         </div>
 		<p></p>
 		<div id='rs'>
@@ -38,7 +38,7 @@
 </body>
 <script type="text/javascript">
 function openUrl() {
-window.js.handler.openUrlWithFilterUrl("https://m.hupun.com/h5/page/report/sale/sentDaily.html", "百度", "https://m.hupun.com/h5/page/report/sale/sentDailyFilter.html")
+window.js.handler.openUrlWithFilterUrl("https://www.baidu.com", "百度")
 };
 
 function openBarcode() {
@@ -72,7 +72,6 @@ function logout() {
 
 function call() {
     try {
-        
         var phone = document.getElementById('phone').value;
         if (window.js.handler != undefined) {
                 window.js.handler.call(phone);
@@ -81,6 +80,10 @@ function call() {
         alert(err);
     }
 };
+
+function back() {
+    window.js.handler.back();
+}
 
 function finish() {
     window.js.handler.finish(null);
