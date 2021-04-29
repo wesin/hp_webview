@@ -31,9 +31,6 @@ class HPWebViewScreen extends StatelessWidget {
           if (jsHandler != null) {
             jsHandler!(controller, context);
           }
-          if (this.viewInfo.url.startsWith(HPWebViewConst.filePath)) {
-            _loadHtmlFromAssets(controller, this.viewInfo.url);
-          }
         },
         onLoadStart: (controller, uri) =>
             vbloc.add(HPWebViewLoadStartEvent(controller, uri)),
@@ -46,16 +43,6 @@ class HPWebViewScreen extends StatelessWidget {
         onProgressChanged: (controller, progress) =>
             vbloc.add(WebViewProgressEvent(controller, progress)),
         initialUserScripts: this.injectJSList);
-  }
-
-  void _loadHtmlFromAssets(
-      InAppWebViewController controller, String path) async {
-    String fileHtmlContents = await rootBundle
-        .loadString(path.substring(HPWebViewConst.filePath.length));
-    controller.loadUrl(
-        urlRequest: URLRequest(
-            url: Uri.dataFromString(fileHtmlContents,
-                mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))));
   }
 
   @override
